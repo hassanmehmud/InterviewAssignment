@@ -58,7 +58,6 @@ namespace InterviewAssignment
                 {
                     return GetState(iterator.Current, separator);
                 }
-
             }
             return null;
         }
