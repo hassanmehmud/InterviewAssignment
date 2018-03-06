@@ -1,6 +1,7 @@
 ﻿using Appccelerate.StateMachine.Machine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace InterviewAssignment
 {
@@ -20,6 +21,7 @@ namespace InterviewAssignment
 
     {
         IEnumerable<IState<TState, TEvent>> myStates;
+        
 
         public IEnumerable<IState<TState, TEvent>> States
         {
@@ -36,13 +38,42 @@ namespace InterviewAssignment
 
         public string StateToString(TState state, string separator = ".")
         {
-
+           
             //Your assignment is here!
             //Tip: You find state machine hierarchy on States property (or myStates field). 
             //You should go through the states and print that on what hierarchy path the current state
             //is found. So if state is Initializing this method should return "Down.Initializing" because
             //"Initializing" is substate of "Down".
-            throw new NotImplementedException();
+            // String currentSt = state.ToString();
+            // foreach (currenSt  in Enum.GetValues(state.GetType(){ }
+
+            //Console.WriteLine(state.ToString());
+            // String currentSt = state.ToString();
+
+            var iterator = myStates.GetEnumerator();
+            // move to next state
+            while (iterator.MoveNext())
+            {
+                if (iterator.Current.ToString() == state.ToString())
+                {
+                    return GetState(iterator.Current, separator);
+                }
+
+            }
+            return null;
+        }
+        //recursive func
+        String GetState(IState<TState, TEvent> state, string separator)
+        {
+            if (state.SuperState != null)
+                return GetState(state.SuperState, separator) + separator + state.ToString();
+            else
+                return state.ToString();
+            
+
         }
     }
 }
+        
+   
+
